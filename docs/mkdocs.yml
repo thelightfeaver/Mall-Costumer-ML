@@ -1,4 +1,29 @@
-site_name: ds
-# 
+site_name: Data Science Project
 site_author: diogenes69
-# 
+site_description: Proyecto de Data Science para segmentación de clientes con KMeans
+
+theme:
+  name: material
+  language: es
+  palette:
+    - scheme: default
+      primary: teal
+      accent: amber
+
+nav:
+  - Inicio: index.md
+  - Primeros pasos: getting-started.md
+  - Estructura del proyecto: project-structure.md
+  - Pipeline:
+      - Dataset: pipeline/dataset.md
+      - Features: pipeline/features.md
+      - Entrenamiento: pipeline/train.md
+      - Predicción: pipeline/predict.md
+  - Configuración: config.md
+  - API Reference:
+      - ds.config: api/config.md
+      - ds.dataset: api/dataset.md
+      - ds.features: api/features.md
+      - ds.modeling.train: api/train.md
+      - ds.modeling.predict: api/predict.md
+    

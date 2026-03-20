@@ -28,8 +28,8 @@ clean:
 ## Lint using ruff (use `make format` to do formatting)
 .PHONY: lint
 lint:
-	ruff format --check
-	ruff check
+	ruff format . | isort . 
+
 
 ## Format source code with ruff
 .PHONY: format
@@ -54,14 +54,6 @@ create_environment:
 	@echo ">>> conda env created. Activate with:\nconda activate $(PROJECT_NAME)"
 	
 
-
-
-#################################################################################
-# PROJECT RULES                                                                 #
-#################################################################################
-
-
-
 ## Build all pipeline stages
 .PHONY: all data features train predict
 all: data features train predict
@@ -77,6 +69,14 @@ train:
 
 predict:
 	$(PYTHON_INTERPRETER) ds/modeling/predict.py
+
+
+#################################################################################
+# PROJECT RULES                                                                 #
+#################################################################################
+
+
+
 
 
 #################################################################################
