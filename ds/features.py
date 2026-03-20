@@ -1,8 +1,9 @@
 from pathlib import Path
+
 import pandas as pd
+import typer
 from loguru import logger
 from tqdm import tqdm
-import typer
 
 from ds.config import INTERIM_DATA_DIR, PROCESSED_DATA_DIR
 
@@ -26,10 +27,9 @@ def main(
     logger.info(f"Missing values:\n{sum_na}")
     logger.info(f"Null values:\n{sum_null}")
     logger.info(f"Duplicate rows: {sum_duplicates}")
-    
+
     df.dropna(inplace=True)
     df.drop_duplicates(inplace=True)
-
 
     logger.info(f"Dataset cleaned. New shape: {df.shape}")
 
@@ -38,17 +38,19 @@ def main(
 
     # Rename columns
     logger.info("Renaming columns...")
-    df.rename(columns={
-        "Gender": "gender",
-        "Age": "age",
-        "Annual Income (k$)": "annual_income",
-        "Spending Score (1-100)": "score",
-    }, inplace=True)
-
+    df.rename(
+        columns={
+            "Gender": "gender",
+            "Age": "age",
+            "Annual Income (k$)": "annual_income",
+            "Spending Score (1-100)": "score",
+        },
+        inplace=True,
+    )
 
     df.to_csv(output_path, index=False)
     logger.success(f"Features saved to {output_path}")
-    
+
 
 if __name__ == "__main__":
     app()
