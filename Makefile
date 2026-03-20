@@ -61,10 +61,22 @@ create_environment:
 #################################################################################
 
 
-## Make dataset
-.PHONY: data
-data: requirements
+
+## Build all pipeline stages
+.PHONY: all data features train predict
+all: data features train predict
+
+data:
 	$(PYTHON_INTERPRETER) ds/dataset.py
+
+features:
+	$(PYTHON_INTERPRETER) ds/features.py
+
+train:
+	$(PYTHON_INTERPRETER) ds/modeling/train.py
+
+predict:
+	$(PYTHON_INTERPRETER) ds/modeling/predict.py
 
 
 #################################################################################
