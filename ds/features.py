@@ -20,8 +20,18 @@ def main(
 
     # Clean dataset
     logger.info("Cleaning dataset...")
+    sum_na = df.isna().sum()
+    sum_null = df.isnull().sum()
+    sum_duplicates = df.duplicated().sum()
+    logger.info(f"Missing values:\n{sum_na}")
+    logger.info(f"Null values:\n{sum_null}")
+    logger.info(f"Duplicate rows: {sum_duplicates}")
+    
     df.dropna(inplace=True)
-    logger.info(f"Dataset shape after cleaning: {df.shape}")
+    df.drop_duplicates(inplace=True)
+
+
+    logger.info(f"Dataset cleaned. New shape: {df.shape}")
 
     # Drop unnecessary columns
     df.drop(columns=["CustomerID"], inplace=True)
@@ -35,7 +45,7 @@ def main(
         "Spending Score (1-100)": "score",
     }, inplace=True)
 
-    
+
     df.to_csv(output_path, index=False)
     logger.success(f"Features saved to {output_path}")
     

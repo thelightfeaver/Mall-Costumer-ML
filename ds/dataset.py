@@ -17,8 +17,9 @@ def main(
 ):
     df = pd.read_csv(input_path)
 
-    logger.info(f"Dataset loaded with shape: {df.shape}")
+    logger.success(f"Dataset loaded with shape: {df.shape}")
     logger.info(f"Columns: {df.columns.tolist()}")
+    logger.info(f"Count: {df.count()}")
     logger.info("Saving dataset to interim directory...")
     df.to_csv(output_path, index=False)
     logger.success(f"Dataset saved to {output_path}")
