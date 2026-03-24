@@ -8,7 +8,6 @@ from sklearn.cluster import KMeans
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import LabelEncoder
-from tqdm import tqdm
 
 from ds.config import MODELS_DIR, PROCESSED_DATA_DIR
 
