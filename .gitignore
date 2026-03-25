@@ -196,3 +196,5 @@ mlruns/
 mlflow.log
 mlartifacts/
 mlflow.db
+
+models/.*
