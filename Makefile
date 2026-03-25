@@ -38,7 +38,6 @@ format:
 	ruff format
 
 
-
 ## Run tests
 .PHONY: test
 test:
@@ -64,23 +63,16 @@ mlflow:
 all: data features train predict
 
 data:
-	$(PYTHON_INTERPRETER) ds/dataset.py
+	$(PYTHON_INTERPRETER) src/dataset.py
 
 features:
-	$(PYTHON_INTERPRETER) ds/features.py
+	$(PYTHON_INTERPRETER) src/features.py
 
 train:
-	$(PYTHON_INTERPRETER) ds/modeling/train.py
+	$(PYTHON_INTERPRETER) src/modeling/train.py
 
 predict:
-	$(PYTHON_INTERPRETER) ds/modeling/predict.py
-
-
-#################################################################################
-# PROJECT RULES                                                                 #
-#################################################################################
-
-
+	$(PYTHON_INTERPRETER) src/modeling/predict.py
 
 
 
