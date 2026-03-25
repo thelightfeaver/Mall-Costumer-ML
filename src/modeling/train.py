@@ -12,22 +12,20 @@ from sklearn.model_selection import GridSearchCV, train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
-from src.config import MODELS_DIR, PROCESSED_DATA_DIR
-from src.util import export_metrics
+from src.config import MODELS_DIR, PROCESSED_DATA_DIR, URL_MLFLOW_TRACKING
+from src.util import configure_mlflow_experiment
 
 app = typer.Typer()
 
 
 @app.command()
 def main(
-    # ---- REPLACE DEFAULT PATHS AS APPROPRIATE ----
     features_path: Path = PROCESSED_DATA_DIR / "features.csv",
     data_test_path: Path = PROCESSED_DATA_DIR / "test_data.csv",
     model_path: Path = MODELS_DIR / "model.pkl",
-    # -----------------------------------------
 ):
+    configure_mlflow_experiment("customer_segmentation", URL_MLFLOW_TRACKING)
     mlflow.sklearn.autolog(log_input_examples=True, silent=True)
-    mlflow.set_tracking_uri("http://127.0.0.1:5001")
     
     with mlflow.start_run():
         # Prepare for training loading data, preprocessing, and training the model.
@@ -60,17 +58,6 @@ def main(
         # Output the model to folder.
         jp.dump(best_pipe, model_path)
         logger.info(f"Model saved to {model_path}.")
-
-        x_predict = best_pipe.predict(X_test)
-        score = silhouette_score(X_test, x_predict)
-        logger.info(f"Silhouette score: {score}")
-        mlflow.log_metric("silhouette_score", score)
-
-        # Export metrics to JSON file.
-        json_path = MODELS_DIR / "model_metrics.json"
-        entry = {"silhouette_score": score, "best_params": grid.best_params_}
-        export_metrics(entry, json_path)
-        logger.info(f"Model metrics saved to {json_path}.")
 
 
 if __name__ == "__main__":
