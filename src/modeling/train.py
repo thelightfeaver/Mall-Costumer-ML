@@ -12,7 +12,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
 from src.config import MODELS_DIR, PROCESSED_DATA_DIR, URL_MLFLOW_TRACKING
-from src.util import configure_mlflow_experiment
+from src.util import configure_mlflow_experiment, save_run_id
 
 app = typer.Typer()
 
@@ -26,7 +26,10 @@ def main(
     configure_mlflow_experiment("customer_segmentation", URL_MLFLOW_TRACKING)
     mlflow.sklearn.autolog(log_input_examples=True, silent=True)
 
-    with mlflow.start_run():
+    with mlflow.start_run() as run:
+        # Guardar run_id
+        save_run_id(run.info.run_id)
+
         # Prepare for training loading data, preprocessing, and training the model.
         logger.info("Loading data...")
         df = pd.read_csv(features_path)

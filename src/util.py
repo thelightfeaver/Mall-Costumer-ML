@@ -5,23 +5,31 @@ import mlflow
 from mlflow.entities import ViewType
 from mlflow.tracking import MlflowClient
 
+RUN_FILE = "run_id.txt"
 
-def export_metrics(metrics: dict, path: str):
+
+def load_run_id() -> str:
     """
-    Export metrics to a JSON file. If the file exists, append the new metrics to the existing data.
+    Load the MLflow run ID from a file. If the file does not exist, return None.
+
+    Returns:
+        str: The MLflow run ID, or None if the file does not exist.
+    """
+    if os.path.exists(RUN_FILE):
+        with open(RUN_FILE, "r") as f:
+            return f.read().strip()
+    return None
+
+
+def save_run_id(run_id: str):
+    """
+    Save the MLflow run ID to a file.
 
     Args:
-        metrics (dict): A dictionary containing the metrics to be exported.
-        path (str): The file path where the metrics should be saved.
+        run_id (str): The MLflow run ID to be saved.
     """
-    if os.path.exists(path):
-        with open(path, "r") as f:
-            history = json.load(f)
-    else:
-        history = []
-    history.append(metrics)
-    with open(path, "w") as f:
-        json.dump(history, f, indent=4)
+    with open(RUN_FILE, "w") as f:
+        f.write(run_id)
 
 
 def configure_mlflow_experiment(experiment_name: str, tracking_uri: str):

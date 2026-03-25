@@ -8,7 +8,7 @@ from loguru import logger
 from sklearn.metrics import silhouette_score
 
 from src.config import MODELS_DIR, PROCESSED_DATA_DIR, URL_MLFLOW_TRACKING
-from src.util import configure_mlflow_experiment
+from src.util import configure_mlflow_experiment, load_run_id
 
 app = typer.Typer()
 
@@ -21,7 +21,7 @@ def main(
     configure_mlflow_experiment("customer_segmentation", URL_MLFLOW_TRACKING)
     mlflow.sklearn.autolog(log_input_examples=True, log_model_signatures=True)
 
-    with mlflow.start_run():
+    with mlflow.start_run(run_id=load_run_id()):
         logger.info("Loading test features...")
         X_test = pd.read_csv(test_data_path)
         model = jp.load(model_path)
