@@ -1,6 +1,7 @@
-import json
+
 from pathlib import Path
 
+import mlflow
 import joblib as jp
 import pandas as pd
 import typer
@@ -25,6 +26,8 @@ def main(
     model_path: Path = MODELS_DIR / "model.pkl",
     # -----------------------------------------
 ):
+    mlflow.sklearn.autolog() 
+    mlflow.set_tracking_uri("http://127.0.0.1:5000")
     # Prepare for training loading data, preprocessing, and training the model.
     logger.info("Loading data...")
     df = pd.read_csv(features_path)
