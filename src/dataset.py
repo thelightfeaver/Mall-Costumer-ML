@@ -15,7 +15,9 @@ def main(
     input_path: Path = RAW_DATA_DIR / "raw.csv",
     output_path: Path = INTERIM_DATA_DIR / "raw_interim.csv",
 ):
-    df = pd.read_csv("https://gist.githubusercontent.com/pravalliyaram/5c05f43d2351249927b8a3f3cc3e5ecf/raw/8bd6144a87988213693754baaa13fb204933282d/Mall_Customers.csv")
+    df = pd.read_csv(
+        "https://gist.githubusercontent.com/pravalliyaram/5c05f43d2351249927b8a3f3cc3e5ecf/raw/8bd6144a87988213693754baaa13fb204933282d/Mall_Customers.csv"
+    )
 
     logger.success(f"Dataset loaded with shape: {df.shape}")
     logger.info(f"Columns: {df.columns.tolist()}")

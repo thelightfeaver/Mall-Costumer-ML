@@ -1,8 +1,7 @@
-
 from pathlib import Path
 
-import mlflow
 import joblib as jp
+import mlflow
 import pandas as pd
 import typer
 from loguru import logger
@@ -26,7 +25,7 @@ def main(
 ):
     configure_mlflow_experiment("customer_segmentation", URL_MLFLOW_TRACKING)
     mlflow.sklearn.autolog(log_input_examples=True, silent=True)
-    
+
     with mlflow.start_run():
         # Prepare for training loading data, preprocessing, and training the model.
         logger.info("Loading data...")

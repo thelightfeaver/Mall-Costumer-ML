@@ -1,14 +1,14 @@
 from pathlib import Path
 
-import mlflow
 import joblib as jp
+import mlflow
 import pandas as pd
+import typer
 from loguru import logger
 from sklearn.metrics import silhouette_score
-import typer
 
 from src.config import MODELS_DIR, PROCESSED_DATA_DIR, URL_MLFLOW_TRACKING
-from src.util import configure_mlflow_experiment, export_metrics
+from src.util import configure_mlflow_experiment
 
 app = typer.Typer()
 
@@ -29,13 +29,6 @@ def main(
         score = silhouette_score(X_test, x_predict)
         logger.info(f"Silhouette score: {score}")
         mlflow.log_metric("silhouette_score", score)
-
-        # Export metrics to JSON file.
-        json_path = MODELS_DIR / "model_metrics.json"
-        entry = {"silhouette_score": score, "best_params": model.get_params()}
-        export_metrics(entry, json_path)
-        logger.info(f"Model metrics saved to {json_path}.")
-
 
 
 if __name__ == "__main__":
