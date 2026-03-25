@@ -1,6 +1,5 @@
 import joblib as jp
 import pandas as pd
-
 from sklearn.metrics import silhouette_score
 
 from ds.config import MODELS_DIR, PROCESSED_DATA_DIR
