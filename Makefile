@@ -48,7 +48,6 @@ test:
 .PHONY: create_environment
 create_environment:
 	$(PYTHON_INTERPRETER) -m venv .venv
-	. .venv/bin/activate && $(PYTHON_INTERPRETER) -m pip install -U pip
 	@echo "💻 Environment setup complete."
 	@echo ">>> Unix Activate with: source .venv/bin/activate"
 	@echo ">>> Windows Activate with: .venv\Scripts\activate.bat"

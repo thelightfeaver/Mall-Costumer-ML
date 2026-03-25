@@ -18,10 +18,14 @@ classifiers = [
 requires-python = "~=3.13.0"
 
 
+[tool.flit.module]
+name = "src"
+
+
 [tool.ruff]
 line-length = 99
-src = ["ds"]
-include = ["pyproject.toml", "ds/**/*.py"]
+src = ["src"]
+include = ["pyproject.toml", "src/**/*.py"]
 
 [tool.ruff.lint]
 extend-select = ["I"]  # Add import sorting

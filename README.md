@@ -4,6 +4,13 @@
     <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
 </a>
 
+<a target="_blank" href="https://www.python.org/downloads/release/python-3130/">
+    <img src="https://img.shields.io/badge/Python-3.13-3776AB?logo=python&logoColor=white" />
+</a>
+<a target="_blank" href="https://pip.pypa.io/en/stable/">
+    <img src="https://img.shields.io/badge/pip-package%20manager-3775A9?logo=pypi&logoColor=white" />
+</a>
+
 A short description of the project.
 
 ## Project Organization
@@ -59,3 +66,49 @@ A short description of the project.
 
 --------
 
+# Installation
+To install the package, run the following command in the terminal:
+
+Windows:
+```cmd
+scoop install make
+```
+
+
+MacOS:
+```bash 
+brew install make
+```
+
+Linux:
+```bash
+sudo apt-get install make
+```
+
+
+## Usage
+To run the project, use the following command in the terminal:
+
+```bash
+make <target>
+```
+
+Where `<target>` is one of the following:
+
+```
+requirements             Install Python dependencies
+clean                    Delete all compiled Python files
+lint                     Lint using ruff (use `make format` to do formatting)
+format                   Format source code with ruff
+test                     Run tests
+create_environment       Set up Python interpreter environment
+mlflow                   init mlflow tracking server
+mlflow_docker            Init mlflow with docker
+all                      Build all pipeline stages
+```
+
+# Workflow
+1. Run `make create_environment` to set up the Python environment.
+2. Run `make requirements` to install the required dependencies.
+3. Run `make mlflow_docker` or `make mlflow` to start the MLflow tracking server using Docker.
+4. Run `make all` to execute the entire data processing and modeling pipeline.
