@@ -12,4 +12,6 @@ sns
 matplotlib
 numpy
 seaborn
+pytest-sugar
+mlflow
 -e .
