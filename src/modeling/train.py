@@ -12,8 +12,8 @@ from sklearn.model_selection import GridSearchCV, train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
-from ds.config import MODELS_DIR, PROCESSED_DATA_DIR
-from ds.util import export_metrics
+from src.config import MODELS_DIR, PROCESSED_DATA_DIR
+from src.util import export_metrics
 
 app = typer.Typer()
 
@@ -27,7 +27,7 @@ def main(
     # -----------------------------------------
 ):
     mlflow.sklearn.autolog(log_input_examples=True, silent=True)
-    mlflow.set_tracking_uri("http://127.0.0.1:5000")
+    mlflow.set_tracking_uri("http://127.0.0.1:5001")
     
     with mlflow.start_run():
         # Prepare for training loading data, preprocessing, and training the model.

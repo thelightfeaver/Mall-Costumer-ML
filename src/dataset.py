@@ -5,7 +5,7 @@ import typer
 from loguru import logger
 from tqdm import tqdm
 
-from ds.config import INTERIM_DATA_DIR, PROCESSED_DATA_DIR, RAW_DATA_DIR
+from src.config import INTERIM_DATA_DIR, PROCESSED_DATA_DIR, RAW_DATA_DIR
 
 app = typer.Typer()
 
