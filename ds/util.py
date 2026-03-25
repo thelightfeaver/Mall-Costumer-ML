@@ -1,6 +1,7 @@
 import json
 import os
 
+
 def export_metrics(metrics: dict, path: str):
     """
     Export metrics to a JSON file. If the file exists, append the new metrics to the existing data.

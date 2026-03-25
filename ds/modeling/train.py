@@ -1,17 +1,15 @@
-from pathlib import Path
-
 import json
+from pathlib import Path
 
 import joblib as jp
 import pandas as pd
 import typer
 from loguru import logger
-from sklearn.metrics import silhouette_score, make_scorer
 from sklearn.cluster import KMeans
-from sklearn.preprocessing import StandardScaler 
-from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.metrics import silhouette_score
+from sklearn.model_selection import GridSearchCV, train_test_split
 from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import StandardScaler
 
 from ds.config import MODELS_DIR, PROCESSED_DATA_DIR
 from ds.util import export_metrics
@@ -37,20 +35,16 @@ def main(
 
     logger.info("Data loaded and split into training and test sets.")
     logger.info("Initializing KMeans with specified parameters...")
-    silhouette_scorer = make_scorer(silhouette_score)
     kmn = KMeans()
     pipe = Pipeline([("scale", StandardScaler()), ("kmm", kmn)])
-    
+
     # Parameter grid for GridSearchCV.
-    params_grid = {
-        "kmm__n_clusters": [2, 3, 4, 5],
-        "kmm__algorithm": ['lloyd', 'elkan']
-    }
+    params_grid = {"kmm__n_clusters": [2, 3, 4, 5], "kmm__algorithm": ["lloyd", "elkan"]}
 
     # Prepare GridSearchCV with the pipeline and parameter grid.
     grid = GridSearchCV(pipe, param_grid=params_grid, cv=5, n_jobs=-1)
     grid.fit(X_train)
-    
+
     logger.info(f"Best parameters found: {grid.best_params_}")
     logger.success("Model training complete.")
 
@@ -70,6 +64,7 @@ def main(
     entry = {"silhouette_score": score, "best_params": grid.best_params_}
     export_metrics(entry, json_path)
     logger.info(f"Model metrics saved to {json_path}.")
+
 
 if __name__ == "__main__":
     app()
