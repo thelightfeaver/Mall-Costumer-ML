@@ -53,10 +53,17 @@ create_environment:
 	@echo ">>> conda env created. Activate with:\nconda activate $(PROJECT_NAME)"
 	
 
+
 ## init mlflow tracking server
 .PHONY: mlflow
 mlflow:
-	mlflow server --port 5000
+	mlflow server --port 5001 --backend-store-uri sqlite:///mlflow.db --default-artifact-root ./mlruns
+
+
+## Init mlflow with docker
+.PHONY: mlflow_docker
+mlflow_docker:
+	docker compose -f docker-compose.yml up -d
 
 ## Build all pipeline stages
 .PHONY: all data features train predict
@@ -73,7 +80,6 @@ train:
 
 predict:
 	$(PYTHON_INTERPRETER) src/modeling/predict.py
-
 
 
 #################################################################################

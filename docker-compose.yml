@@ -1,0 +1,33 @@
+services:
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v3.10.1-full
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./mlruns:/mlruns
+    depends_on:
+      database:
+        condition: service_started
+    command: >
+      mlflow server
+      --host 0.0.0.0
+      --port 5001
+      --backend-store-uri postgresql+psycopg2://mlflow:mlflow@database:5432/mlflow_db
+      --default-artifact-root file:/mlruns
+      --allowed-hosts '*' 
+      --cors-allowed-origins '*'
+
+  database:
+    image: postgres:18-alpine3.23
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: mlflow
+      POSTGRES_PASSWORD: mlflow
+      POSTGRES_DB: mlflow_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata: {}
+
