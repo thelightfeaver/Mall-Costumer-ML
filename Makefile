@@ -54,6 +54,11 @@ create_environment:
 	@echo ">>> conda env created. Activate with:\nconda activate $(PROJECT_NAME)"
 	
 
+## init mlflow tracking server
+.PHONY: mlflow
+mlflow:
+	mlflow server --port 5000
+
 ## Build all pipeline stages
 .PHONY: all data features train predict
 all: data features train predict
