@@ -47,10 +47,11 @@ test:
 ## Set up Python interpreter environment
 .PHONY: create_environment
 create_environment:
-	
-	conda create --name $(PROJECT_NAME) python=$(PYTHON_VERSION) -y
-	
-	@echo ">>> conda env created. Activate with:\nconda activate $(PROJECT_NAME)"
+	$(PYTHON_INTERPRETER) -m venv .venv
+	. .venv/bin/activate && $(PYTHON_INTERPRETER) -m pip install -U pip
+	@echo "💻 Environment setup complete."
+	@echo ">>> Unix Activate with: source .venv/bin/activate"
+	@echo ">>> Windows Activate with: .venv\Scripts\activate.bat"
 	
 
 
