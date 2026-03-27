@@ -19,7 +19,7 @@ def main(
     test_data_path: Path = PROCESSED_DATA_DIR / "test_data.csv",
 ):
     configure_mlflow_experiment("customer_segmentation", URL_MLFLOW_TRACKING)
-    mlflow.sklearn.autolog(log_input_examples=True, log_model_signatures=True)
+    mlflow.sklearn.autolog(silent=True)
 
     with mlflow.start_run(run_id=load_run_id()):
         logger.info("Loading test features...")
