@@ -21,7 +21,6 @@ services:
       --port 5001
       --serve-artifacts
       --backend-store-uri postgresql+psycopg2://mlflow:mlflow@database:5432/mlflow_db
-      --default-artifact-root s3://mlflow/
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5001/health"]
       interval: 30s
@@ -56,11 +55,7 @@ services:
       MINIO_ROOT_USER: minio
       MINIO_ROOT_PASSWORD: miniopass
       MINIO_STORAGE_USE_HTTPS: False
-      MINIO_CONSOLE_ADDRESS: ":9001"
-      MINIO_PORT: 9000
-      MINIO_ADRESS: ":9000"
-      MINIO_CONSOLE_PORT: 9001
-    command: server /data
+    command: server /data --console-address ":9001"
     volumes:
       - minio_data:/data
     healthcheck:
