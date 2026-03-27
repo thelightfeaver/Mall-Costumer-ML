@@ -24,7 +24,7 @@ def main(
     model_path: Path = MODELS_DIR / "model.pkl",
 ):
     configure_mlflow_experiment("customer_segmentation", URL_MLFLOW_TRACKING)
-    mlflow.sklearn.autolog(silent=True)
+    mlflow.sklearn.autolog(silent=True, registered_model_name="customer_segmentation_model")
 
     with mlflow.start_run() as run:
         # Guardar run_id
