@@ -199,4 +199,4 @@ mlflow.db
 
 models/
 run_id.txt
-models/model.pkl
+*.pkl
