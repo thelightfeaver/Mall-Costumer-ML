@@ -197,7 +197,6 @@ mlflow.log
 mlartifacts/
 mlflow.db
 
-models/*.pkl
+models/
 run_id.txt
-*.pkl
-models/model.pkl
+
