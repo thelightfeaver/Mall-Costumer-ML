@@ -14,6 +14,7 @@ services:
       mlflow server
       --host 0.0.0.0
       --port 5001
+      --serve-artifacts
       --backend-store-uri postgresql+psycopg2://mlflow:mlflow@database:5432/mlflow_db
       --default-artifact-root s3://mlflow/
       --allowed-hosts '*'
@@ -44,6 +45,17 @@ services:
     volumes:
       - minio_data:/data
     restart: always
+
+  minio-setup:
+    image: quay.io/minio/mc
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c "
+      sleep 10 &&
+      mc alias set minio http://minio:9000 minio miniopass &&
+      mc mb minio/mlflow --ignore-existing
+      "
 
 volumes:
   pgdata: {}
