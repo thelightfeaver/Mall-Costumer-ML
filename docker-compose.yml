@@ -4,8 +4,12 @@ services:
     ports:
       - "5001:5001"
     depends_on:
-      - database
-      - minio
+      database:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      minio-setup:
+        condition: service_completed_successfully
     environment:
       AWS_ACCESS_KEY_ID: minio
       AWS_SECRET_ACCESS_KEY: miniopass
@@ -19,6 +23,11 @@ services:
       --default-artifact-root s3://mlflow/
       --allowed-hosts '*'
       --cors-allowed-origins '*'
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 2
     restart: always
 
   database:
@@ -31,6 +40,12 @@ services:
       POSTGRES_DB: mlflow_db
     volumes:
       - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "mlflow", "-p", "5432"]
+      interval: 5s
+      timeout: 10s
+      retries: 2
+      start_period: 30s
     restart: always
 
   minio:
@@ -44,15 +59,21 @@ services:
     command: server /data --console-address ":9001"
     volumes:
       - minio_data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
     restart: always
 
   minio-setup:
     image: quay.io/minio/mc
     depends_on:
-      - minio
+      minio:
+        condition: service_healthy
     entrypoint: >
       /bin/sh -c "
-      sleep 10 &&
       mc alias set minio http://minio:9000 minio miniopass &&
       mc mb minio/mlflow --ignore-existing
       "
