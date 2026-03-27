@@ -21,8 +21,6 @@ services:
       --serve-artifacts
       --backend-store-uri postgresql+psycopg2://mlflow:mlflow@database:5432/mlflow_db
       --default-artifact-root s3://mlflow/
-      --allowed-hosts '*'
-      --cors-allowed-origins '*'
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5001/health"]
       interval: 30s
@@ -51,8 +49,8 @@ services:
   minio:
     image: minio/minio
     ports:
-      - "9000:9000"
-      - "9001:9001"
+      - "9000:9000" # For S3 API
+      - "9001:9001" # For MinIO Console
     environment:
       MINIO_ROOT_USER: minio
       MINIO_ROOT_PASSWORD: miniopass
@@ -75,7 +73,7 @@ services:
     entrypoint: >
       /bin/sh -c "
       mc alias set minio http://minio:9000 minio miniopass &&
-      mc mb minio/mlflow --ignore-existing
+      mc mb minio/mlflow
       "
 
 volumes:
