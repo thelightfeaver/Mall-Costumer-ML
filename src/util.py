@@ -1,4 +1,3 @@
-import json
 import os
 
 import mlflow
@@ -57,5 +56,5 @@ def configure_mlflow_experiment(experiment_name: str, tracking_uri: str):
             client.restore_experiment(experiment.experiment_id)
     else:
         client.create_experiment(experiment_name)
-
+    mlflow.config.enable_system_metrics_logging()
     mlflow.set_experiment(experiment_name)
